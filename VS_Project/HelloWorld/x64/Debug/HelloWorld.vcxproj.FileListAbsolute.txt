@@ -1,0 +1,2 @@
+F:\GitHub_Submit\VS_Project\HelloWorld\x64\Debug\HelloWorld.exe
+F:\GitHub_Submit\VS_Project\HelloWorld\x64\Debug\HelloWorld.pdb
