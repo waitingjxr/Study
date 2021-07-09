@@ -1,3 +1,1 @@
-# Study
-自律学习
-hello world!
+# JS全栈学习
