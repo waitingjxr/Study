@@ -19,6 +19,8 @@
   </div>
 
   <script src="./js/bird.js"></script>
+  <script src="./js/baseObj.js"></script>
+  <script src="./js/wall.js"></script>
   <script>
     var jsWrapBg = document.getElementById('wrapBg')
     var jsHeadTitle = document.getElementById('headTitle') // 获取标题
@@ -60,6 +62,15 @@
       jsStartBtn.style.display = 'none'
       // 插入小鸟到界面当中
       bird.showBird(jsWrapBg)
+      bird.flyBird() // 小鸟下落
+      bird.wingWave() // 小鸟翅膀煽动
+      jsWrapBg.onclick = function () {
+        bird.fallSpeed = -8
+      }
+
+      // 出现墙体
+      var b = new Wall()
+      b.createWall()
     }
   </script>
 </body>

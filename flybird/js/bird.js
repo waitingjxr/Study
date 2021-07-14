@@ -15,5 +15,42 @@ var bird = {
 
     // 将小鸟的div插入到游戏的界面当中
     parentObj.appendChild(this.div)
+  },
+
+  fallSpeed: 0, //小鸟下落的速度
+  flyBird: function() { // 控制小鸟飞翔下落的函数
+    bird.flyTimer = setInterval(fly, 60)
+    function fly() {
+      bird.div.style.top = bird.div.offsetTop + bird.fallSpeed++ + 'px'
+      if (bird.div.offsetTop >= 390) { // 掉到地面，清除计时器
+        bird.fallSpeed = 0
+        clearInterval(bird.flyTimer)
+        clearInterval(bird.wingTimer)
+      }
+      if (bird.fallSpeed > 12) { // 控制小鸟的下落速度最大为12
+        bird.fallSpeed = 12 
+      }
+      if (bird.div.offsetTop < 0) {  // 控制小鸟不飞出上顶界
+        bird.div.style.top = '0px'
+        bird.fallSpeed = 2
+      }
+    }
+  },
+
+  wingWave: function() { // 控制小鸟煽动翅膀的函数
+    var up = ['url(img/birds.png)', 'url(img/birds.png)']
+    var down = ['url(img/birds.png)', 'url(img/birds.png)']
+    var i = 0, j = 0
+    bird.wingTimer = setInterval(wing, 120)
+    function wing() {
+      if (bird.fallSpeed > 0) {
+        bird.div.style.backgroundImage = down[i++]
+        if (i === 2) { i = 0 }
+      }
+      if (bird.fallSpeed < 0) {
+        bird.div.style.backgroundImage = up[j++]
+        if (j === 2) { j = 0 }
+      }
+    }
   }
 }
