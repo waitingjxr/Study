@@ -25,6 +25,9 @@
     var jsWrapBg = document.getElementById('wrapBg')
     var jsHeadTitle = document.getElementById('headTitle') // 获取标题
     var jsHeadBird = document.getElementById('headBird') // 获取标题中的小鸟
+    var wallArr = [] // 装墙体的
+    var wallDistance = baseObj.randomNum(120, 350) // 墙体之间的间隔
+
     var Y = 3 // 标题摆动的幅度
     var index = 0
     var imgArr = ['img/birds.png', 'img/birds.png']
@@ -39,7 +42,6 @@
       }
     }
   
-  
     var jsGrassLand1 = document.getElementById('grassLand1')
     var jsGrassLand2 = document.getElementById('grassLand2')
     var landTimer = setInterval(landRun, 30) // 让草地动起来
@@ -52,6 +54,28 @@
       }
       jsGrassLand1.style.left = jsGrassLand1.offsetLeft-3 + 'px'
       jsGrassLand2.style.left = jsGrassLand2.offsetLeft-3 + 'px'
+      
+      // 墙体的移动
+      if (wallArr.length) {
+        for (var i = 0; i < wallArr.length; i++) {
+          wallArr[i].moveWall()
+          var x = baseObj.rectangleCrashExamine(wallArr[i].downDivWrap, bird.div)
+          var y = baseObj.rectangleCrashExamine(wallArr[i].upDivWrap, bird.div)
+          var z = bird.div.offsetTop >= 390
+          if (x || y) {
+            window.clearInterval(landTimer) //清除草地移动的定时器
+            jsWrapBg.onclik = null
+            bird.fallSpeed = 0
+          }
+        }
+
+        if (wallArr[wallArr.length - 1].downDivWrap.offsetLeft < (450 - wallDistance)) {
+          var newWall = new Wall()
+          newWall.createWall()
+          wallArr.push(newWall) 
+        }
+        
+      }
     }
   
   
@@ -71,6 +95,7 @@
       // 出现墙体
       var b = new Wall()
       b.createWall()
+      wallArr.push(b)
     }
   </script>
 </body>
