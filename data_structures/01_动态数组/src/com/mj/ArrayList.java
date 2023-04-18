@@ -1,6 +1,30 @@
 package com.mj;
 
+import java.util.Iterator;
+
 public class ArrayList {
+	/**
+	 * 元素的数量
+	 */
+	private int size;
+	/**
+	 * 所有元素
+	 */
+	private int[] elements;
+	
+	private static final int DEFAULT_CAPACITY = 10;
+	
+	private static final int ELEMENT_NOT_FOUND = -1;
+	
+	public ArrayList(int capacity) {
+		capacity = (capacity < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capacity;
+		elements = new int[capacity];
+	}
+	
+	public ArrayList() {
+		this(DEFAULT_CAPACITY);
+	}
+	
 	/**
 	 * 清除所有元素
 	 */
@@ -13,7 +37,7 @@ public class ArrayList {
 	 * @return
 	 */
 	public int size() {
-		return 0;
+		return size;
 	}
 	
 	/**
@@ -21,7 +45,7 @@ public class ArrayList {
 	 * @return
 	 */
 	public boolean isEmpty() {
-		return false;
+		return size == 0;
 	}
 	
 	/**
@@ -47,7 +71,10 @@ public class ArrayList {
 	 * @return
 	 */
 	public int get(int index) {
-		return 0;
+		if (index < 0 || index >= size) { 
+			throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
+		}
+		return elements[index];
 	}
 	
 	/** 
@@ -57,7 +84,12 @@ public class ArrayList {
 	 * @return 原来的元素
 	 */
 	public int set(int index, int element) {
-		return 0;
+		if (index < 0 || index >= size) { 
+			throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
+		}
+		int old = elements[index];
+		elements[index] = element;
+		return old;
 	}
 	
 	/** 
@@ -84,7 +116,10 @@ public class ArrayList {
 	 * @return
 	 */
 	public int indexOf(int element) {
-		return -1;
+		for (int i = 0; i < size; i++) {
+			if (element == elements[i]) return i; 
+		}
+		return ELEMENT_NOT_FOUND;
 	}
 }
 
