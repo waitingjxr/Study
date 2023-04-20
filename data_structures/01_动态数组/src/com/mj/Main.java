@@ -4,9 +4,13 @@ public class Main {
 	 
 	
 	public static void main(String[] args) {
-		int array[] = new int[] {11, 22, 33};
 		ArrayList list = new ArrayList();
-		list.get(-2);
+		list.add(1);
+		list.add(2);
+		list.add(3);
+		list.add(3);
+		list.add(3);
+		System.out.println(list);
 	}
 
 }

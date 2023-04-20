@@ -12,7 +12,7 @@ public class ArrayList {
 	 */
 	private int[] elements;
 	
-	private static final int DEFAULT_CAPACITY = 10;
+	private static final int DEFAULT_CAPACITY = 2;
 	
 	private static final int ELEMENT_NOT_FOUND = -1;
 	
@@ -29,7 +29,7 @@ public class ArrayList {
 	 * 清除所有元素
 	 */
 	public void clear() {
-		
+		size = 0;
 	}
 	
 	/**
@@ -62,7 +62,38 @@ public class ArrayList {
 	 * @param element
 	 */
 	public void add(int element) {
-		
+		add(size, element);
+	}
+	
+	/** 
+	 * 在index位置插入一个元素
+	 * @param index
+	 * @param element
+	 */
+	public void add(int index, int element) {
+		rangeCheckForAdd(index);
+		ensureCapacity(size + 1);
+		for (int i = size - 1; i >= index; i--) {
+			elements[i + 1] = elements[i];
+		}
+		elements[index] = element;
+		size++;
+	}
+	
+	/**
+	 * 删除index位置的元素
+	 * @param index
+	 * @return
+	 */
+	public int remove(int index) {
+		rangeCheck(index);
+		int old = elements[index];
+		for (int i = index; i <= size - 1; i++) {
+			elements[i] = elements[i + 1]; 
+		}
+		size--;
+		old = elements[index];
+		return old;
 	}
 	
 	/** 
@@ -71,9 +102,7 @@ public class ArrayList {
 	 * @return
 	 */
 	public int get(int index) {
-		if (index < 0 || index >= size) { 
-			throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
-		}
+		rangeCheck(index);
 		return elements[index];
 	}
 	
@@ -84,30 +113,10 @@ public class ArrayList {
 	 * @return 原来的元素
 	 */
 	public int set(int index, int element) {
-		if (index < 0 || index >= size) { 
-			throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
-		}
+		rangeCheck(index);
 		int old = elements[index];
 		elements[index] = element;
 		return old;
-	}
-	
-	/** 
-	 * 在index位置插入一个元素
-	 * @param index
-	 * @param element
-	 */
-	public void add(int index, int element) {
-		
-	}
-	
-	/**
-	 * 删除index位置的元素
-	 * @param index
-	 * @return
-	 */
-	public int remove(int index) {
-		return 0;
 	}
 	
 	/**
@@ -120,6 +129,62 @@ public class ArrayList {
 			if (element == elements[i]) return i; 
 		}
 		return ELEMENT_NOT_FOUND;
+	}
+	
+	/**
+	 * 确保动态数组容量充足
+	 */
+	private void ensureCapacity(int capacity) {
+		int oldCapacity = elements.length;
+		if (oldCapacity >= capacity) return;
+		int newCapacity = oldCapacity + (oldCapacity >> 1);
+		int[] newElements = new int[newCapacity];
+		for(int i = 0; i < size; i++) {
+			newElements[i] = elements[i]; 
+		}
+		elements = newElements;
+		System.out.println("原始容量:" + oldCapacity + " 扩容为: " + newCapacity);
+	}
+	
+	/**
+	 * 动态数组越界
+	 */
+	private void outOfBound(int index) {
+		throw new IndexOutOfBoundsException("Index:" + index + ", Size:" + size);
+	}
+	
+	/**
+	 * 范围检查
+	 * @param index
+	 */
+	private void rangeCheck(int index) {
+		if (index < 0 || index >= size) { 
+			outOfBound(index);
+		}
+	}
+	
+	/**
+	 * 添加时范围检查
+	 * @param index
+	 */
+	private void rangeCheckForAdd(int index) {
+		if (index < 0 || index > size) { 
+			outOfBound(index);
+		}
+	}
+	
+	
+	@Override
+	public String toString() {
+		StringBuilder string = new StringBuilder();
+		string.append("size = ").append(size).append(", [");
+		for(int i = 0; i < size; i++) {
+			if(i != 0) string.append(", ");
+			string.append(elements[i]);
+		}
+		
+		string .append("]");
+		return string.toString();
 	}
 }
 
